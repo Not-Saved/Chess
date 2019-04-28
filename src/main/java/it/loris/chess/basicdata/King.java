@@ -28,14 +28,14 @@ public class King extends Piece {
 	
 	@Override
 	public boolean legalShortCastling(int[] move) {
-		int[] oo = {2,0};
+		int[] oo = {2, 0};
 		if (Arrays.equals(move, oo) && moveCount == 0) return true;
 		else return false;
 	}
 	
 	@Override
 	public boolean legalLongCastling(int[] move) {
-		int[] ooo = {-2,0};
+		int[] ooo = {-2, 0};
 		if (Arrays.equals(move, ooo) && moveCount == 0) return true;
 		else return false;
 	}

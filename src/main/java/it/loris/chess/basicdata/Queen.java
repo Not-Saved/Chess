@@ -18,7 +18,7 @@ public class Queen extends Piece {
 	
 	@Override
 	public boolean legalMove(int[] move) {
-		if (isStraight(move) == false && isDiagonal(move) == false) return false;
-		else return true;
+		if (isStraight(move) || isDiagonal(move)) return true;
+		else return false;
 	}
 }

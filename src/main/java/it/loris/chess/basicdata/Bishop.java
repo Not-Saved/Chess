@@ -18,7 +18,7 @@ public class Bishop extends Piece {
 
 	@Override
 	public boolean legalMove(int[] move) {
-		if (isDiagonal(move) == false) return false;
-		else return true;
+		if (isDiagonal(move)) return true;
+		else return false;
 	}
 }

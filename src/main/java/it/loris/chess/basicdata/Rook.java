@@ -18,8 +18,8 @@ public class Rook extends Piece {
 	
 	@Override
 	public boolean legalMove(int[] move) {
-		if (isStraight(move) == false) return false;
-		else return true;
+		if (isStraight(move)) return true;
+		else return false;
 	}
 	
 }

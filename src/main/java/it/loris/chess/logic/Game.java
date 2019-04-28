@@ -2,7 +2,6 @@ package it.loris.chess.logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import it.loris.chess.basicdata.Color;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -28,12 +27,28 @@ public class Game {
 	}
 	
 	public void advanceGame(int fromX, int fromY, int toX, int toY) {
-		this.board = getPlayer().proposeMove(board, fromX, fromY, toX, toY);
-		if (winCondition(getPlayer())){
-				playing.setValue(false);
-		}
+		Board oldBoard = board;
+		board = getPlayer().proposeMove(board, fromX, fromY, toX, toY);
+		gameUntilNow.removeIf(p-> gameUntilNow.indexOf(p)>gameUntilNow.indexOf(oldBoard));
 		gameUntilNow.add(board);
+		if (winCondition(getPlayer(-1))){
+			playing.setValue(false);
+		}
 		turn.setValue(getPlayer().color);
+	}
+
+	public void forwardGame(){
+		if (gameUntilNow.indexOf(board) < gameUntilNow.size()-1) {
+			board = gameUntilNow.get(gameUntilNow.indexOf(board) + 1);
+			turn.setValue(getPlayer().color);
+		}
+	}
+
+	public void rewindGame(){
+		if(gameUntilNow.indexOf(board) > 0) {
+			board = gameUntilNow.get(gameUntilNow.indexOf(board) - 1);
+			turn.setValue(getPlayer().color);
+		}
 	}
 	
 	public BooleanProperty getState() {
@@ -47,12 +62,24 @@ public class Game {
 	public Board getBoard(){
 		return board;
 	}
+
+	public int getTurnCount(){ return gameUntilNow.size();}
 		
 	private Player getPlayer() {
-		switch (gameUntilNow.size()%2) {
-		case 0: return p2;
-		case 1: return p1;
-		default: throw new IllegalStateException("Should have never went here!");
+		switch (gameUntilNow.indexOf(board)%2) {
+		case 1: return p2;
+		case 0: return p1;
+		default:
+			throw new IllegalStateException("Should have never went here!");
+		}
+	}
+
+	private Player getPlayer(int i) {
+		switch ((gameUntilNow.indexOf(board)-i)%2) {
+			case 1: return p2;
+			case 0: return p1;
+			default:
+				throw new IllegalStateException("Should have never went here!");
 		}
 	}
 	

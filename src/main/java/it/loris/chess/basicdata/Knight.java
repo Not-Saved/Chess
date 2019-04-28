@@ -4,6 +4,7 @@ import static it.loris.chess.util.MyMath.arrayAbs;
 import java.util.Arrays;
 
 public class Knight extends Piece {
+
 	public Knight(Color color, String name) {
 		super(color, name);
 	}
